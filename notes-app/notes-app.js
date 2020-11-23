@@ -35,14 +35,12 @@ document
     event.target.textContent = 'Clicked'
   })
 
-document.querySelector('#remove-all').addEventListener('click', function () {
-  document.querySelectorAll('.note').forEach(function (note) {
-    note.remove()
-  })
-})
-
 // connect the search input to the notes render function
 document.querySelector('#search-text').addEventListener('input', function (e) {
   filters.searchText = e.target.value
   renderNotes(notes, filters)
+})
+
+document.querySelector('#sort-notes').addEventListener('change', function (e) {
+  console.log(e.target.value)
 })

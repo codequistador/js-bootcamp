@@ -8,6 +8,7 @@ const things = [
 
 const filters = {
   searchText: '',
+  hideCompleted: false,
 }
 
 const renderThings = function (things, filters) {
@@ -15,7 +16,11 @@ const renderThings = function (things, filters) {
 
   // get matched things (using filter/includes*)
   const filteredThings = things.filter(function (thing) {
-    return thing.text.toLowerCase().includes(filters.searchText.toLowerCase())
+    const includesSearchText = thing.text
+      .toLowerCase()
+      .includes(filters.searchText.toLowerCase())
+    const incomplete = !filters.hideCompleted || !thing.completed
+    return includesSearchText && incomplete
   })
 
   const remainingThings = filteredThings.filter(function (thing) {
@@ -48,12 +53,23 @@ document
     renderThings(things, filters)
   })
 
-// add button listener
-document.querySelector('#add-thing').addEventListener('click', function () {
-  console.log('Added a thing')
-})
+// form listener
+document
+  .querySelector('#add-thing-form')
+  .addEventListener('submit', function (e) {
+    e.preventDefault()
+    things.push({
+      text: e.target.elements.thingName.value,
+      completed: false,
+    })
+    e.target.elements.thingName.value = ''
+    renderThings(things, filters)
+  })
 
-// add input listener
-document.querySelector('#thing-to-add').addEventListener('input', function (e) {
-  console.log(e.target.value)
-})
+// hide completed listener
+document
+  .querySelector('#hide-completed')
+  .addEventListener('change', function (e) {
+    filters.hideCompleted = e.target.checked
+    renderThings(things, filters)
+  })

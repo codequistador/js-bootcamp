@@ -7,15 +7,20 @@
 </head>
 <body>
   <h1>Things To Do</h1>
-  <div id="add-thing-container">
-    <input id="thing-to-add" type="text" placeholder="Add a Thing">
-    <button id="add-thing">Add Thing</button>
-  </div>
-  <br />
   <div id="search-container">
     <input id="search-things" type="text" placeholder="Search Things">
+    <label>
+      <input type="checkbox" id="hide-completed">
+      Hide completed things
+    </label>
   </div>
   <div id="things-container"></div>
+  <div id="add-thing-container">
+    <form id="add-thing-form">
+      <input type="text" placeholder="Thing name" name="thingName">
+      <button>Add Thing</button>
+    </form>
+  </div>
   <script src="todo-app.js"></script>
 </body>
 </html>
