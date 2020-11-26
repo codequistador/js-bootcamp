@@ -21,6 +21,7 @@ document
   .addEventListener('submit', function (e) {
     e.preventDefault()
     things.push({
+      id: uuidv4(),
       text: e.target.elements.thingName.value,
       completed: false,
     })

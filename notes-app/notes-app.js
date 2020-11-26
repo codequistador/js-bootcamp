@@ -12,6 +12,7 @@ document
   .querySelector('#create-note')
   .addEventListener('click', function (event) {
     notes.push({
+      id: uuidv4(),
       title: '',
       body: '',
     })

@@ -44,9 +44,26 @@ const renderThings = function (things, filters) {
 
 // Get the DOM elements for an individual thing
 const generateThingDOM = function (thing) {
-  const p = document.createElement('p')
-  p.textContent = thing.text
-  return p
+  const container = document.createElement('div')
+  const checkbox = document.createElement('input')
+  const thingText = document.createElement('span')
+  const removeButton = document.createElement('button')
+
+  container.setAttribute('class', 'thing')
+
+  // setup checkbox
+  checkbox.setAttribute('type', 'checkbox')
+  container.appendChild(checkbox)
+
+  // setup text
+  thingText.textContent = thing.text
+  container.appendChild(thingText)
+
+  // setup button
+  removeButton.textContent = 'x'
+  container.appendChild(removeButton)
+
+  return container
 }
 
 // Get the DOM elements for list summary
