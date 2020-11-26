@@ -1,45 +1,8 @@
-let things = []
+let things = getSavedThings()
 
 const filters = {
   searchText: '',
   hideCompleted: false,
-}
-
-const localThings = localStorage.getItem('things')
-if (localThings !== null) {
-  things = JSON.parse(localThings)
-}
-
-const renderThings = function (things, filters) {
-  const thingsContainer = document.querySelector('#things-container')
-
-  // get matched things (using filter/includes*)
-  const filteredThings = things.filter(function (thing) {
-    const includesSearchText = thing.text
-      .toLowerCase()
-      .includes(filters.searchText.toLowerCase())
-    const incomplete = !filters.hideCompleted || !thing.completed
-    return includesSearchText && incomplete
-  })
-
-  const remainingThings = filteredThings.filter(function (thing) {
-    return !thing.completed
-  })
-
-  // clear thingsContainer
-  thingsContainer.innerHTML = ''
-
-  // render summary of filtered things
-  const summary = document.createElement('h2')
-  summary.textContent = `You have ${remainingThings.length} things left`
-  thingsContainer.appendChild(summary)
-
-  // render matched ones
-  filteredThings.forEach(function (thing) {
-    const p = document.createElement('p')
-    p.textContent = thing.text
-    thingsContainer.appendChild(p)
-  })
 }
 
 renderThings(things, filters)
@@ -52,7 +15,7 @@ document
     renderThings(things, filters)
   })
 
-// form listener
+// add thing form listener
 document
   .querySelector('#add-thing-form')
   .addEventListener('submit', function (e) {
@@ -61,7 +24,7 @@ document
       text: e.target.elements.thingName.value,
       completed: false,
     })
-    localStorage.setItem('things', JSON.stringify(things))
+    saveThings(things)
     e.target.elements.thingName.value = ''
     renderThings(things, filters)
   })

@@ -1,35 +1,8 @@
-let notes = []
+const notes = getSavedNotes()
 
 // this is our search term
 const filters = {
   searchText: '',
-}
-
-// check for existing saved data
-const notesJSON = localStorage.getItem('notes')
-if (notesJSON !== null) {
-  notes = JSON.parse(notesJSON)
-}
-
-// first only return notes that match search term. then render them. delete the rest.
-const renderNotes = function (notes, filters) {
-  const notesContainer = document.querySelector('#notes-container')
-  const filteredNotes = notes.filter(function (note) {
-    return note.title.toLowerCase().includes(filters.searchText.toLowerCase())
-  })
-
-  notesContainer.innerHTML = ''
-
-  filteredNotes.forEach(function (note) {
-    const noteEl = document.createElement('p')
-
-    if (note.title.length > 0) {
-      noteEl.textContent = note.title
-    } else {
-      noteEl.textContent = 'You did not name the note'
-    }
-    notesContainer.appendChild(noteEl)
-  })
 }
 
 // call the render notes function
@@ -42,7 +15,7 @@ document
       title: '',
       body: '',
     })
-    localStorage.setItem('notes', JSON.stringify(notes))
+    saveNotes(notes)
     renderNotes(notes, filters)
   })
 
