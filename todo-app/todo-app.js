@@ -1,14 +1,13 @@
-const things = [
-  { text: 'learn js', completed: false },
-  { text: 'play with sage', completed: false },
-  { text: 'go skiing', completed: true },
-  { text: 'chorin', completed: true },
-  { text: 'look on the bright side', completed: false },
-]
+let things = []
 
 const filters = {
   searchText: '',
   hideCompleted: false,
+}
+
+const localThings = localStorage.getItem('things')
+if (localThings !== null) {
+  things = JSON.parse(localThings)
 }
 
 const renderThings = function (things, filters) {
@@ -62,6 +61,7 @@ document
       text: e.target.elements.thingName.value,
       completed: false,
     })
+    localStorage.setItem('things', JSON.stringify(things))
     e.target.elements.thingName.value = ''
     renderThings(things, filters)
   })
