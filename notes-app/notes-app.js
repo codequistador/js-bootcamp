@@ -1,4 +1,4 @@
-const notes = getSavedNotes()
+let notes = getSavedNotes()
 
 // this is our search term
 const filters = {
@@ -11,13 +11,14 @@ renderNotes(notes, filters)
 document
   .querySelector('#create-note')
   .addEventListener('click', function (event) {
+    const id = uuidv4()
     notes.push({
-      id: uuidv4(),
+      id: id,
       title: '',
       body: '',
     })
     saveNotes(notes)
-    renderNotes(notes, filters)
+    location.assign(`/edit.html#${id}`)
   })
 
 // connect the search input to the notes render function
@@ -28,4 +29,11 @@ document.querySelector('#search-text').addEventListener('input', function (e) {
 
 document.querySelector('#sort-notes').addEventListener('change', function (e) {
   console.log(e.target.value)
+})
+
+window.addEventListener('storage', function (e) {
+  if (e.key === 'notes') {
+    notes = JSON.parse(e.newValue)
+    renderNotes(notes, filters)
+  }
 })

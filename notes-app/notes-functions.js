@@ -28,6 +28,7 @@ const removeNote = function (id) {
 const generateNoteDOM = function (note) {
   const noteEl = document.createElement('div')
   const textEl = document.createElement('span')
+  const linkEl = document.createElement('a')
   const button = document.createElement('button')
 
   // Set up the remove note button
@@ -46,6 +47,11 @@ const generateNoteDOM = function (note) {
     textEl.textContent = 'You did not name the note'
   }
   noteEl.appendChild(textEl)
+
+  // set up the edit link
+  linkEl.textContent = 'edit'
+  linkEl.setAttribute('href', `/edit.html#${note.id}`)
+  textEl.appendChild(linkEl)
 
   return noteEl
 }
