@@ -33,13 +33,34 @@ const renderThings = function (things, filters) {
   thingsContainer.innerHTML = ''
 
   // render summary of filtered things
-
   thingsContainer.appendChild(generateSummaryDOM(remainingThings))
 
   // render matched ones
   filteredThings.forEach(function (thing) {
     thingsContainer.appendChild(generateThingDOM(thing))
   })
+}
+
+// Remove a thing from the things array
+const removeThing = function (id) {
+  const thingToRemove = things.findIndex(function (thing) {
+    return thing.id === id
+  })
+
+  if (thingToRemove > -1) {
+    things.splice(thingToRemove, 1)
+  }
+}
+
+// Toggle thing completed value
+const toggleThing = function (id) {
+  const thingToToggle = things.find(function (thing) {
+    return thing.id === id
+  })
+
+  if (thingToToggle !== undefined) {
+    thingToToggle.completed = !thingToToggle.completed
+  }
 }
 
 // Get the DOM elements for an individual thing
@@ -53,7 +74,13 @@ const generateThingDOM = function (thing) {
 
   // setup checkbox
   checkbox.setAttribute('type', 'checkbox')
+  checkbox.checked = thing.completed
   container.appendChild(checkbox)
+  checkbox.addEventListener('change', function () {
+    toggleThing(thing.id)
+    saveThings(things)
+    renderThings(things, filters)
+  })
 
   // setup text
   thingText.textContent = thing.text
@@ -62,6 +89,11 @@ const generateThingDOM = function (thing) {
   // setup button
   removeButton.textContent = 'x'
   container.appendChild(removeButton)
+  removeButton.addEventListener('click', function () {
+    removeThing(thing.id)
+    saveThings(things)
+    renderThings(things, filters)
+  })
 
   return container
 }
