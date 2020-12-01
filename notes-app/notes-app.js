@@ -3,6 +3,7 @@ let notes = getSavedNotes()
 // this is our search term
 const filters = {
   searchText: '',
+  sortBy: 'byEdited',
 }
 
 // call the render notes function
@@ -12,8 +13,11 @@ document
   .querySelector('#create-note')
   .addEventListener('click', function (event) {
     const id = uuidv4()
+    const time = dayjs().valueOf()
     notes.push({
       id: id,
+      createdAt: time,
+      updatedAt: time,
       title: '',
       body: '',
     })
@@ -28,7 +32,8 @@ document.querySelector('#search-text').addEventListener('input', function (e) {
 })
 
 document.querySelector('#sort-notes').addEventListener('change', function (e) {
-  console.log(e.target.value)
+  filters.sortBy = e.target.value
+  renderNotes(notes, filters)
 })
 
 window.addEventListener('storage', function (e) {
