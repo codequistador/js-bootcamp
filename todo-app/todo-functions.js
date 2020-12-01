@@ -1,5 +1,5 @@
 // Get things from localStorage
-const getSavedThings = function () {
+const getSavedThings = () => {
   const localThings = localStorage.getItem('things')
   if (localThings !== null) {
     return JSON.parse(localThings)
@@ -9,15 +9,15 @@ const getSavedThings = function () {
 }
 
 // Save things to localStorage
-const saveThings = function (things) {
+const saveThings = (things) => {
   localStorage.setItem('things', JSON.stringify(things))
 }
 
 // Render Things
-const renderThings = function (things, filters) {
+const renderThings = (things, filters) => {
   const thingsContainer = document.querySelector('#things-container')
   // get matched things (using filter/includes*)
-  const filteredThings = things.filter(function (thing) {
+  const filteredThings = things.filter((thing) => {
     const includesSearchText = thing.text
       .toLowerCase()
       .includes(filters.searchText.toLowerCase())
@@ -25,9 +25,7 @@ const renderThings = function (things, filters) {
     return includesSearchText && incomplete
   })
 
-  const remainingThings = filteredThings.filter(function (thing) {
-    return !thing.completed
-  })
+  const remainingThings = filteredThings.filter((thing) => !thing.completed)
 
   // clear thingsContainer
   thingsContainer.innerHTML = ''
@@ -36,16 +34,14 @@ const renderThings = function (things, filters) {
   thingsContainer.appendChild(generateSummaryDOM(remainingThings))
 
   // render matched ones
-  filteredThings.forEach(function (thing) {
+  filteredThings.forEach((thing) => {
     thingsContainer.appendChild(generateThingDOM(thing))
   })
 }
 
 // Remove a thing from the things array
-const removeThing = function (id) {
-  const thingToRemove = things.findIndex(function (thing) {
-    return thing.id === id
-  })
+const removeThing = (id) => {
+  const thingToRemove = things.findIndex((thing) => thing.id === id)
 
   if (thingToRemove > -1) {
     things.splice(thingToRemove, 1)
@@ -53,10 +49,8 @@ const removeThing = function (id) {
 }
 
 // Toggle thing completed value
-const toggleThing = function (id) {
-  const thingToToggle = things.find(function (thing) {
-    return thing.id === id
-  })
+const toggleThing = (id) => {
+  const thingToToggle = things.find((thing) => thing.id === id)
 
   if (thingToToggle !== undefined) {
     thingToToggle.completed = !thingToToggle.completed
@@ -64,7 +58,7 @@ const toggleThing = function (id) {
 }
 
 // Get the DOM elements for an individual thing
-const generateThingDOM = function (thing) {
+const generateThingDOM = (thing) => {
   const container = document.createElement('div')
   const checkbox = document.createElement('input')
   const thingText = document.createElement('span')
@@ -76,7 +70,7 @@ const generateThingDOM = function (thing) {
   checkbox.setAttribute('type', 'checkbox')
   checkbox.checked = thing.completed
   container.appendChild(checkbox)
-  checkbox.addEventListener('change', function () {
+  checkbox.addEventListener('change', () => {
     toggleThing(thing.id)
     saveThings(things)
     renderThings(things, filters)
@@ -89,7 +83,7 @@ const generateThingDOM = function (thing) {
   // setup button
   removeButton.textContent = 'x'
   container.appendChild(removeButton)
-  removeButton.addEventListener('click', function () {
+  removeButton.addEventListener('click', () => {
     removeThing(thing.id)
     saveThings(things)
     renderThings(things, filters)
@@ -99,7 +93,7 @@ const generateThingDOM = function (thing) {
 }
 
 // Get the DOM elements for list summary
-const generateSummaryDOM = function (things) {
+const generateSummaryDOM = (things) => {
   const summary = document.createElement('h2')
   summary.textContent = `You have ${things.length} things left`
   return summary

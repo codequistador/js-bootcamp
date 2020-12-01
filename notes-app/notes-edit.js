@@ -4,9 +4,7 @@ const removeButton = document.querySelector('#remove-note')
 const lastEdited = document.querySelector('#last-edited')
 const noteId = location.hash.substring(1)
 let notes = getSavedNotes()
-let note = notes.find(function (note) {
-  return note.id === noteId
-})
+let note = notes.find((note) => note.id === noteId)
 
 if (note === undefined) {
   location.assign('/index.html')
@@ -18,7 +16,7 @@ bodyField.value = note.body
 lastEdited.textContent = setLastEditedMessage(note.updatedAt)
 
 // title event listener
-titleField.addEventListener('input', function (e) {
+titleField.addEventListener('input', (e) => {
   note.title = e.target.value
   note.updatedAt = dayjs().valueOf()
   lastEdited.textContent = setLastEditedMessage(note.updatedAt)
@@ -26,7 +24,7 @@ titleField.addEventListener('input', function (e) {
 })
 
 // body event listener
-bodyField.addEventListener('input', function (e) {
+bodyField.addEventListener('input', (e) => {
   note.body = e.target.value
   note.updatedAt = dayjs().valueOf()
   lastEdited.textContent = setLastEditedMessage(note.updatedAt)
@@ -34,18 +32,16 @@ bodyField.addEventListener('input', function (e) {
 })
 
 // set up remove button
-removeButton.addEventListener('click', function () {
+removeButton.addEventListener('click', () => {
   removeNote(note.id)
   saveNotes(notes)
   location.assign('/index.html')
 })
 
-window.addEventListener('storage', function (e) {
+window.addEventListener('storage', (e) => {
   if (e.key === 'notes') {
     notes = JSON.parse(e.newValue)
-    let note = notes.find(function (note) {
-      return note.id === noteId
-    })
+    let note = notes.find((note) => note.id === noteId)
 
     if (note === undefined) {
       location.assign('/index.html')

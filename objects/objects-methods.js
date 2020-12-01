@@ -4,14 +4,14 @@ let restaurant = {
   name: 'CFC',
   guestCapacity: 35,
   guestCount: 0,
-  checkAvailability: function (partySize) {
+  checkAvailability(partySize) {
     let seatsLeft = this.guestCapacity - this.guestCount
     return partySize <= seatsLeft
   },
-  seatParty: function (partySize) {
+  seatParty(partySize) {
     this.guestCount = this.guestCount + partySize
   },
-  removeParty: function (partySize) {
+  removeParty(partySize) {
     this.guestCount = this.guestCount - partySize
   },
 }
