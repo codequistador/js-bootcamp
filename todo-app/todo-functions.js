@@ -1,9 +1,12 @@
+'use strict'
+
 // Get things from localStorage
 const getSavedThings = () => {
   const localThings = localStorage.getItem('things')
-  if (localThings !== null) {
-    return JSON.parse(localThings)
-  } else {
+
+  try {
+    return localThings ? JSON.parse(localThings) : []
+  } catch (error) {
     return []
   }
 }
@@ -52,7 +55,7 @@ const removeThing = (id) => {
 const toggleThing = (id) => {
   const thingToToggle = things.find((thing) => thing.id === id)
 
-  if (thingToToggle !== undefined) {
+  if (thingToToggle) {
     thingToToggle.completed = !thingToToggle.completed
   }
 }

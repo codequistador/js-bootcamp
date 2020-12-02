@@ -1,3 +1,5 @@
+'use strict'
+
 let things = getSavedThings()
 
 const filters = {
