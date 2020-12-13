@@ -1,36 +1,82 @@
 // Prototypal Inheritance
+// myPerson --> Person.prototype --> Object.prototype --> null
 
-// implicit return
-const Person = function (firstName, lastName, age, likes = []) {
-  this.firstName = firstName
-  this.lastName = lastName
-  this.age = age
-  this.likes = likes
+class Person {
+  constructor(firstName, lastName, age, likes = []) {
+    this.firstName = firstName
+    this.lastName = lastName
+    this.age = age
+    this.likes = likes
+  }
+
+  getBio() {
+    let bio = `${this.firstName} is ${this.age} years old.`
+
+    this.likes.forEach((like) => {
+      bio += ` ${this.firstName} likes ${like}.`
+    })
+
+    return bio
+  }
+
+  set fullName(fullName) {
+    const nameArray = fullName.split(' ')
+    this.firstName = nameArray[0]
+    this.lastName = nameArray[1]
+  }
+
+  // computed property
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`
+  }
 }
 
-// Prototype is object with everything we want to share with instances of this constructor function
-Person.prototype.getBio = function () {
-  let bio = `${this.firstName} is ${this.age} years old.`
+class Employee extends Person {
+  constructor(firstName, lastName, age, position, likes) {
+    // Super is the constructor of the extended class
+    super(firstName, lastName, age, likes)
+    this.position = position
+  }
 
-  // Since arrow functions don't bind this, we can use the parent's this here.
-  this.likes.forEach((like) => {
-    bio += ` ${this.firstName} likes ${like}.`
-  })
+  getBio() {
+    return `${this.fullName} is a ${this.position}.`
+  }
 
-  return bio
+  getYearsLeft() {
+    return 65 - this.age
+  }
 }
 
-Person.prototype.setName = function (fullName) {
-  const nameArray = fullName.split(' ')
-  this.firstName = nameArray[0]
-  this.lastName = nameArray[1]
+class Student extends Person {
+  constructor(firstName, lastName, age, grade, likes) {
+    super(firstName, lastName, age, likes)
+    this.grade = grade
+  }
+
+  getBio() {
+    const status = this.grade >= 70 ? 'passing' : 'failing'
+    return `${this.firstName} is ${status} the course.`
+  }
+
+  adjustGrade(amount) {
+    this.grade += amount
+  }
 }
+
+const student = new Student('Teresa', 'McSass', 33, 90)
+console.log(student.getBio())
+student.adjustGrade(-50)
+console.log(student.getBio())
+
+const employee = new Employee('Sagertooth', 'Tiger', 3, 'Dog', [
+  'Fetch',
+  'Tug of War',
+])
+console.log(employee.getBio())
 
 const me = new Person('Justin', 'Daining', 36, ['Climbing', 'Skiing'])
-
-me.setName('Bruce Bronson')
+me.fullName = 'Bruce Bronson'
 console.log(me.getBio())
 
 const teresa = new Person('Teresa', 'Daining', 33, ['The Sims'])
-
 console.log(teresa.getBio())
