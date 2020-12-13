@@ -27,6 +27,7 @@ Person.prototype.setName = function (fullName) {
 }
 
 const me = new Person('Justin', 'Daining', 36, ['Climbing', 'Skiing'])
+
 me.setName('Bruce Bronson')
 console.log(me.getBio())
 
