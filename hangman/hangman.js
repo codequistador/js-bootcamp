@@ -1,8 +1,9 @@
 // Constructor function (we need this, so regular function)
-const Hangman = function (word, guessesLeft, guess) {
+const Hangman = function (word, guessesLeft) {
   this.word = word.toLowerCase().split('')
   this.guessesLeft = guessesLeft
   this.guessedLetters = []
+  this.status = 'playing'
 }
 
 Hangman.prototype.getGame = function () {
@@ -17,6 +18,10 @@ Hangman.prototype.getGame = function () {
 }
 
 Hangman.prototype.makeGuess = function (letter) {
+  if (this.status !== 'playing') {
+    return
+  }
+
   guess = letter.toLowerCase()
 
   const isUnique = !this.guessedLetters.includes(guess)
@@ -24,17 +29,38 @@ Hangman.prototype.makeGuess = function (letter) {
 
   isUnique && this.guessedLetters.push(guess)
   !isMatch && isUnique && this.guessesLeft--
+
+  this.getStatus()
 }
 
-// create multiple instances
-const game1 = new Hangman('Yoga', 3)
+Hangman.prototype.getStatus = function () {
+  const finished = this.word.every((letter) =>
+    this.guessedLetters.includes(letter)
+  )
 
-console.log(game1.getGame())
-console.log(`${game1.guessesLeft} guesses left in game 1`)
+  if (this.guessesLeft <= 0) {
+    this.status = 'fail'
+  } else if (finished) {
+    this.status = 'success'
+  } else {
+    this.status = 'playing'
+  }
+}
 
-window.addEventListener('keydown', (e) => {
-  const isLetter = e.key.toLowerCase() != e.key.toUpperCase()
-  isLetter && game1.makeGuess(e.key)
-  console.log(game1.getGame())
-  console.log(`${game1.guessesLeft} guesses left in game 1`)
-})
+Hangman.prototype.getStatusMessage = function () {
+  if (this.status === 'success') {
+    return 'Success! You got it.'
+  } else if (this.status === 'fail') {
+    return `Fail! The word was "${this.word.join('')}"`
+  } else {
+    return `Guesses Left: ${this.guessesLeft}`
+  }
+}
+
+Hangman.prototype.renderGame = function (game) {
+  const gameEl = document.querySelector('#game')
+  const statusMessageEl = document.createElement('div')
+  gameEl.textContent = game
+  statusMessageEl.textContent = this.getStatusMessage()
+  gameEl.appendChild(statusMessageEl)
+}
