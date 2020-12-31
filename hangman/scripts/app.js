@@ -14,8 +14,18 @@ window.addEventListener('keydown', (e) => {
 })
 
 const renderGame = () => {
-  gameEl.textContent = game1.game
+  gameEl.innerHTML = ''
   statusMessageEl.textContent = game1.statusMessage
+
+  const gameArray = game1.game.split('')
+  gameArray.forEach((letter) => {
+    const span = document.createElement('span')
+    if (letter === ' ') {
+      span.className = 'space'
+    }
+    span.textContent = letter
+    gameEl.appendChild(span)
+  })
 }
 
 const startGame = async (words = 2, guesses = 5) => {

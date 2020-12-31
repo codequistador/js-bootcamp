@@ -1,0 +1,62 @@
+body {
+  background: #2B292E;
+  color: pink;
+  font-family: Helvetica, Arial, sans-serif;
+  padding: 16px;
+}
+
+h1 {
+  color: pink;
+}
+
+#wrapper {
+  border: 1px solid pink; 
+  padding: 16px;
+}
+
+#game {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+#status {
+  background: brown;
+  color: pink;
+  padding: 16px;
+  font-size: 20px;
+}
+
+#words, #guesses {
+  margin: 8px 0;
+}
+
+span {
+  border-bottom: 1px solid #bbb6c4;
+  display: inline-block;
+  font-size: 2rem;
+  height: 2.4rem;
+  line-height: 2.4rem;
+  margin: 0 .1rem;
+  text-align: center;
+  text-transform: uppercase;
+  width: 2.4rem;
+}
+
+span.space {
+  border-bottom: none;
+}
+
+button {
+  margin: 16px 0 0 0;
+  padding: 8px 16px;
+  color: white;
+  background: #7044a0;
+  border-radius: 8px;
+  border: none;
+  transition: background .3s ease, color .3s ease;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #5F3A87;
+}
