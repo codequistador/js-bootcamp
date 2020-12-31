@@ -57,12 +57,4 @@ class Hangman {
       return `Guesses Left: ${this.guessesLeft}`
     }
   }
-
-  renderGame(game) {
-    const gameEl = document.querySelector('#game')
-    const statusMessageEl = document.createElement('div')
-    gameEl.textContent = game
-    statusMessageEl.textContent = this.statusMessage
-    gameEl.appendChild(statusMessageEl)
-  }
 }

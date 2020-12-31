@@ -1,7 +1,6 @@
-// create multiple instances
-const game1 = new Hangman('Yoga and Climbing', 3)
-
-game1.renderGame(game1.game)
+const gameEl = document.querySelector('#game')
+const statusMessageEl = document.querySelector('#status')
+let game1
 
 window.addEventListener('keydown', (e) => {
   if (
@@ -10,6 +9,26 @@ window.addEventListener('keydown', (e) => {
   ) {
     const guess = String.fromCharCode(e.keyCode)
     game1.makeGuess(guess)
-    game1.renderGame(game1.game)
+    renderGame()
   }
 })
+
+const renderGame = () => {
+  gameEl.textContent = game1.game
+  statusMessageEl.textContent = game1.statusMessage
+}
+
+const startGame = async (words = 2, guesses = 5) => {
+  const game = await getGame(words)
+  game1 = new Hangman(game, guesses)
+  renderGame()
+}
+
+document.querySelector('#reset').addEventListener('submit', (e) => {
+  e.preventDefault()
+  const words = document.querySelector('#words').value
+  const guesses = document.querySelector('#guesses').value
+  startGame(words, guesses)
+})
+
+startGame()

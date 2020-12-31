@@ -6,7 +6,41 @@
   <title>Hangman Game</title>
 </head>
 <body>
-  <div id="game"></div>
+  <h1>Hangman Game</h1>
+  <p>Type to make a guess. The default game is 2 words and 5 guesses.</p>
+  <div id="wrapper" style="border: 1px solid black; padding: 16px;">
+    <div id="game"></div>
+    <div id="status"></div>
+  </div>
+  <form id="reset">
+    <h3>Start a New Game</h3>
+    <div>
+      Number of Words
+      <select name="words" id="words">
+        <option value="1">1</option>
+        <option selected value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </div>
+    <div>
+      Number of Guesses
+      <select name="guesses" id="guesses">
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option selected value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
+    </div>
+    
+    <button type="submit">Create New Game</button>
+  </form>
+  <script src="requests.js"></script>
   <script src="hangman.js"></script>
   <script src="app.js"></script>
 </body>
