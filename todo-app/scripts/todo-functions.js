@@ -33,13 +33,20 @@ const renderThings = (things, filters) => {
   // clear thingsContainer
   thingsContainer.innerHTML = ''
 
-  // render summary of filtered things
-  thingsContainer.appendChild(generateSummaryDOM(remainingThings))
+  if (filteredThings.length > 0) {
+    // render summary of filtered things
+    thingsContainer.appendChild(generateSummaryDOM(remainingThings))
 
-  // render matched ones
-  filteredThings.forEach((thing) => {
-    thingsContainer.appendChild(generateThingDOM(thing))
-  })
+    // render matched ones
+    filteredThings.forEach((thing) => {
+      thingsContainer.appendChild(generateThingDOM(thing))
+    })
+  } else {
+    const emptyMessage = document.createElement('p')
+    emptyMessage.classList.add('empty-message')
+    emptyMessage.textContent = 'No things here, bud.'
+    thingsContainer.appendChild(emptyMessage)
+  }
 }
 
 // Remove a thing from the things array
@@ -62,7 +69,8 @@ const toggleThing = (id) => {
 
 // Get the DOM elements for an individual thing
 const generateThingDOM = (thing) => {
-  const container = document.createElement('div')
+  const container = document.createElement('label')
+  const wrapper = document.createElement('div')
   const checkbox = document.createElement('input')
   const thingText = document.createElement('span')
   const removeButton = document.createElement('button')
@@ -72,7 +80,7 @@ const generateThingDOM = (thing) => {
   // setup checkbox
   checkbox.setAttribute('type', 'checkbox')
   checkbox.checked = thing.completed
-  container.appendChild(checkbox)
+  wrapper.appendChild(checkbox)
   checkbox.addEventListener('change', () => {
     toggleThing(thing.id)
     saveThings(things)
@@ -81,10 +89,16 @@ const generateThingDOM = (thing) => {
 
   // setup text
   thingText.textContent = thing.text
-  container.appendChild(thingText)
+  wrapper.appendChild(thingText)
+
+  // setup wrapper
+  container.classList.add('list-item')
+  wrapper.classList.add('list-item__container')
+  container.appendChild(wrapper)
 
   // setup button
-  removeButton.textContent = 'x'
+  removeButton.textContent = 'remove'
+  removeButton.classList.add('button', 'button--text')
   container.appendChild(removeButton)
   removeButton.addEventListener('click', () => {
     removeThing(thing.id)
@@ -98,6 +112,8 @@ const generateThingDOM = (thing) => {
 // Get the DOM elements for list summary
 const generateSummaryDOM = (things) => {
   const summary = document.createElement('h2')
-  summary.textContent = `You have ${things.length} things left`
+  summary.classList.add('list-title')
+  const plural = things.length === 1 ? '' : 's'
+  summary.textContent = `You have ${things.length} thing${plural} left`
   return summary
 }

@@ -36,8 +36,9 @@ const startGame = async (words = 2, guesses = 5) => {
 
 document.querySelector('#reset').addEventListener('submit', (e) => {
   e.preventDefault()
-  const words = document.querySelector('#words').value
-  const guesses = document.querySelector('#guesses').value
+  console.log(e.target.elements)
+  const words = e.target.elements.words.value
+  const guesses = e.target.elements.guesses.value
   startGame(words, guesses)
 })
 

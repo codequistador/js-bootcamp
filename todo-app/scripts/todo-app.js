@@ -17,15 +17,19 @@ document.querySelector('#search-things').addEventListener('input', (e) => {
 
 // add thing form listener
 document.querySelector('#add-thing-form').addEventListener('submit', (e) => {
+  const trimmedInput = e.target.elements.thingName.value.trim()
   e.preventDefault()
-  things.push({
-    id: uuidv4(),
-    text: e.target.elements.thingName.value,
-    completed: false,
-  })
-  saveThings(things)
-  e.target.elements.thingName.value = ''
-  renderThings(things, filters)
+
+  if (trimmedInput.length > 0) {
+    things.push({
+      id: uuidv4(),
+      text: trimmedInput,
+      completed: false,
+    })
+    saveThings(things)
+    e.target.elements.thingName.value = ''
+    renderThings(things, filters)
+  }
 })
 
 // hide completed listener

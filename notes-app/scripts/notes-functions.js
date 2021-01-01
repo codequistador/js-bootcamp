@@ -27,19 +27,9 @@ const removeNote = (id) => {
 
 // Generate the DOM structure for a note
 const generateNoteDOM = (note) => {
-  const noteEl = document.createElement('div')
-  const textEl = document.createElement('span')
-  const linkEl = document.createElement('a')
-  const button = document.createElement('button')
-
-  // Set up the remove note button
-  button.textContent = 'x'
-  noteEl.appendChild(button)
-  button.addEventListener('click', () => {
-    removeNote(note.id)
-    saveNotes(notes)
-    renderNotes(notes, filters)
-  })
+  const noteEl = document.createElement('a')
+  const textEl = document.createElement('p')
+  const statusEl = document.createElement('p')
 
   // Set up the note title text
   if (note.title.length > 0) {
@@ -47,12 +37,17 @@ const generateNoteDOM = (note) => {
   } else {
     textEl.textContent = 'You did not name the note'
   }
+  textEl.classList.add('list-item__title')
   noteEl.appendChild(textEl)
 
   // set up the edit link
-  linkEl.textContent = 'edit'
-  linkEl.setAttribute('href', `/edit.html#${note.id}`)
-  textEl.appendChild(linkEl)
+  noteEl.setAttribute('href', `/edit.html#${note.id}`)
+  noteEl.classList.add('list-item')
+
+  // set up status message
+  statusEl.textContent = setLastEditedMessage(note.updatedAt)
+  statusEl.classList.add('list-item__subtitle')
+  noteEl.appendChild(statusEl)
 
   return noteEl
 }
@@ -106,10 +101,17 @@ const renderNotes = (notes, filters) => {
 
   notesContainer.innerHTML = ''
 
-  filteredNotes.forEach((note) => {
-    const noteEl = generateNoteDOM(note)
-    notesContainer.appendChild(noteEl)
-  })
+  if (filteredNotes.length > 0) {
+    filteredNotes.forEach((note) => {
+      const noteEl = generateNoteDOM(note)
+      notesContainer.appendChild(noteEl)
+    })
+  } else {
+    const emptyMessage = document.createElement('p')
+    emptyMessage.textContent = 'No notes, bud.'
+    emptyMessage.classList.add('empty-message')
+    notesContainer.appendChild(emptyMessage)
+  }
 }
 
 // Generate the last edited message
